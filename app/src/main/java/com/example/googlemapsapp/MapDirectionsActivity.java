@@ -11,17 +11,23 @@ import android.os.Bundle;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 public class MapDirectionsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap gMap;
     MarkerOptions place1, place2;
+    ArrayList<LatLng> listPoints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_directions);
+
+        listPoints = new ArrayList<>();
 
         SupportMapFragment mapFragment = SupportMapFragment.newInstance();
         getSupportFragmentManager()
@@ -47,6 +53,21 @@ public class MapDirectionsActivity extends AppCompatActivity implements OnMapRea
             return;
         }
         gMap.setMyLocationEnabled(true);
+        gMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(@NonNull LatLng latLng) {
+                if (listPoints.size()==2){
+                    listPoints.clear();
+                    gMap.clear();;
+                }
+                listPoints.add(latLng);
+
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+
+                gMap.addMarker(markerOptions);
+            }
+        });
 
     }
 }

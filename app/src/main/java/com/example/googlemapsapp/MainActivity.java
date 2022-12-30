@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         binding.getLocationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MapActivity.class);
+                Intent intent = new Intent(MainActivity.this, MapDirectionsActivity.class);
                 startActivity(intent);
             }
         });
